@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>谷广俊大可爱</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000;
+        }
+        .link-text {
+            position: absolute;
+            font-weight: bold;
+            pointer-events: auto; /* 允许点击 */
+            user-select: none;
+            text-decoration: none; /* 去掉默认下划线 */
+            cursor: pointer; /* 鼠标悬浮显示手型 */
+        }
+        .link-text:hover {
+            text-decoration: underline; /* 悬浮时显示下划线，提示可点击 */
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // 要跳转的目标网址（可替换成你想让朋友跳转的链接）
+        const targetUrl = 'https://www.baidu.com'; // 示例：跳转百度，可自行修改
+
+        function createLinkText() {
+            const link = document.createElement('a');
+            link.className = 'link-text';
+            link.innerText = '谷广俊大可爱';
+            link.href = targetUrl; // 绑定跳转链接
+            link.target = '_blank'; // 新窗口打开（避免覆盖当前页面）
+
+            // 随机位置（满屏分布）
+            link.style.left = Math.random() * 100 + 'vw';
+            link.style.top = Math.random() * 100 + 'vh';
+
+            // 随机样式（增强视觉效果）
+            link.style.color = '#' + Math.floor(Math.random() * 16777215).toString(16); // 随机颜色
+            link.style.fontSize = Math.random() * 30 + 20 + 'px'; // 随机大小（20-50px）
+            link.style.opacity = Math.random() * 0.5 + 0.5; // 随机透明度（0.5-1）
+            link.style.transform = `rotate(${Math.random() * 20 - 10}deg)`; // 轻微随机旋转（-10°到10°）
+
+            document.body.appendChild(link);
+
+            // 动画效果：文字缓慢移动+渐变消失
+            const animation = link.animate([
+                { transform: `translate(0, 0) rotate(${link.style.transform})`, opacity: link.style.opacity },
+                { transform: `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+            ], {
+                duration: Math.random() * 3000 + 2000, // 动画时长（2-5秒）
+                easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)'
+            });
+
+            // 动画结束后移除元素，避免页面卡顿
+            animation.onfinish = () => {
+                link.remove();
+            };
+        }
+
+        // 每隔200毫秒创建一个文字链接，实现满屏效果
+        setInterval(createLinkText, 200);
+    </script>
+</body>
+</html>
