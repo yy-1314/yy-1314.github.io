@@ -22,7 +22,14 @@
         .first-screen h1 {
             color: white;
             font-size: 36px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .first-screen p {
+            color: white;
+            font-size: 24px;
+            margin-bottom: 30px;
+            text-align: center;
         }
         .heart-btn {
             width: 120px;
@@ -57,14 +64,29 @@
         .link-text:hover {
             text-decoration: underline;
         }
+        .center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            font-weight: bold;
+            color: pink;
+            pointer-events: none;
+            z-index: 1;
+        }
     </style>
 </head>
 <body>
     <!-- 第一幕：引导点击爱心 -->
     <div class="first-screen" id="firstScreen">
         <h1>有个惊喜给你 谷广俊</h1>
+        <p>请点击爱心</p>
         <button class="heart-btn" id="heartBtn"></button>
     </div>
+
+    <!-- 第二幕中央粉色文字 -->
+    <div class="center-text" id="centerText">谷广俊大可爱</div>
 
     <script>
         // 目标网址（可替换）
@@ -84,7 +106,7 @@
             function createLinkText() {
                 const link = document.createElement('a');
                 link.className = 'link-text';
-                link.innerText = '谷广俊大傻逼';
+                link.innerText = '谷广俊大可爱';
                 link.href = targetUrl;
                 link.target = '_blank';
 
