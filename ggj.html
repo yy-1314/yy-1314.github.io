@@ -2,8 +2,44 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>谷广俊大可爱</title>
+    <title>给谷广俊的惊喜</title>
     <style>
+        /* 第一幕样式 */
+        .first-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff85a1, #8690e8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            transition: opacity 0.5s;
+        }
+        .first-screen h1 {
+            color: white;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .heart-btn {
+            width: 120px;
+            height: 120px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E") no-repeat center;
+            background-size: contain;
+            border: none;
+            cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* 第二幕文字样式 */
         body {
             margin: 0;
             overflow: hidden;
@@ -12,57 +48,75 @@
         .link-text {
             position: absolute;
             font-weight: bold;
-            pointer-events: auto; /* 允许点击 */
+            pointer-events: auto;
             user-select: none;
-            text-decoration: none; /* 去掉默认下划线 */
-            cursor: pointer; /* 鼠标悬浮显示手型 */
+            text-decoration: none;
+            cursor: pointer;
+            white-space: nowrap;
         }
         .link-text:hover {
-            text-decoration: underline; /* 悬浮时显示下划线，提示可点击 */
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
+    <!-- 第一幕：引导点击爱心 -->
+    <div class="first-screen" id="firstScreen">
+        <h1>有个惊喜给你</h1>
+        <button class="heart-btn" id="heartBtn"></button>
+    </div>
+
     <script>
-        // 要跳转的目标网址（可替换成你想让朋友跳转的链接）
-        const targetUrl = 'https://www.baidu.com'; // 示例：跳转百度，可自行修改
+        // 目标网址（可替换）
+        const targetUrl = 'https://www.baidu.com'; 
 
-        function createLinkText() {
-            const link = document.createElement('a');
-            link.className = 'link-text';
-            link.innerText = '谷广俊大可爱';
-            link.href = targetUrl; // 绑定跳转链接
-            link.target = '_blank'; // 新窗口打开（避免覆盖当前页面）
+        // 第一幕点击爱心触发第二幕
+        document.getElementById('heartBtn').addEventListener('click', () => {
+            document.getElementById('firstScreen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('firstScreen').style.display = 'none';
+                startSecondScreen();
+            }, 500);
+        });
 
-            // 随机位置（满屏分布）
-            link.style.left = Math.random() * 100 + 'vw';
-            link.style.top = Math.random() * 100 + 'vh';
+        // 第二幕：满屏文字效果（密度更高）
+        function startSecondScreen() {
+            function createLinkText() {
+                const link = document.createElement('a');
+                link.className = 'link-text';
+                link.innerText = '谷广俊大可爱';
+                link.href = targetUrl;
+                link.target = '_blank';
 
-            // 随机样式（增强视觉效果）
-            link.style.color = '#' + Math.floor(Math.random() * 16777215).toString(16); // 随机颜色
-            link.style.fontSize = Math.random() * 30 + 20 + 'px'; // 随机大小（20-50px）
-            link.style.opacity = Math.random() * 0.5 + 0.5; // 随机透明度（0.5-1）
-            link.style.transform = `rotate(${Math.random() * 20 - 10}deg)`; // 轻微随机旋转（-10°到10°）
+                // 随机位置
+                link.style.left = Math.random() * 100 + 'vw';
+                link.style.top = Math.random() * 100 + 'vh';
 
-            document.body.appendChild(link);
+                // 随机样式
+                link.style.color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+                link.style.fontSize = Math.random() * 25 + 15 + 'px'; // 字号更小，密度更高
+                link.style.opacity = Math.random() * 0.6 + 0.4;
+                link.style.transform = `rotate(${Math.random() * 30 - 15}deg)`;
 
-            // 动画效果：文字缓慢移动+渐变消失
-            const animation = link.animate([
-                { transform: `translate(0, 0) rotate(${link.style.transform})`, opacity: link.style.opacity },
-                { transform: `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
-            ], {
-                duration: Math.random() * 3000 + 2000, // 动画时长（2-5秒）
-                easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)'
-            });
+                document.body.appendChild(link);
 
-            // 动画结束后移除元素，避免页面卡顿
-            animation.onfinish = () => {
-                link.remove();
-            };
+                // 动画效果
+                const animation = link.animate([
+                    { transform: `translate(0, 0) rotate(${link.style.transform})`, opacity: link.style.opacity },
+                    { transform: `translate(${Math.random() * 80 - 40}px, ${Math.random() * 80 - 40}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                ], {
+                    duration: Math.random() * 2500 + 1500, // 动画时长更短
+                    easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)'
+                });
+
+                animation.onfinish = () => {
+                    link.remove();
+                };
+            }
+
+            // 每150毫秒创建一个，密度显著提高
+            setInterval(createLinkText, 150);
         }
-
-        // 每隔200毫秒创建一个文字链接，实现满屏效果
-        setInterval(createLinkText, 200);
     </script>
 </body>
 </html>
